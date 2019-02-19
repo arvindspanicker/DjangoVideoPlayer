@@ -1,16 +1,10 @@
 <!DOCTYPE html>
-<!--[if IE 9]>
-<html class="ie9 no-focus" lang="en"> <![endif]-->
-<!--[if gt IE 9]><!-->
-<html class="no-focus" lang="en"> <!--<![endif]-->
+<html lang="en">
 <head>
+    <title>Video-Player | {{ page_name }}</title>
     <meta charset="utf-8">
-    <title>Video Player | {{ page_name }}</title>
-    <meta name="description" content="DjangoVideoPlayer">
-    <meta name="author" content="arvindpanicker">
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     {% load bootstrap3 %}
     {% load staticfiles %}
     {% bootstrap_css %}
@@ -18,123 +12,36 @@
 
     {% bootstrap_messages %}
 
-    {% block extra_style %}{% endblock %}
+    {% block extra_script %} {% endblock %}
+
+    <style>
+            {% block extra_style %} {% endblock %}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
 </head>
 <body>
 
-<div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed">
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        <!-- Sidebar Scroll Container -->
-        <div id="sidebar-scroll">
-            <!-- Sidebar Content -->
-            <!-- Adding .sidebar-mini-hide to an element will hide it when the sidebar is in mini mode -->
-            <div class="sidebar-content">
-                <!-- Side Header -->
-                <div class="side-header side-content bg-white-op">
-                    <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                    <button class="btn btn-link text-gray pull-right hidden-md hidden-lg" type="button"
-                            data-toggle="layout" data-action="sidebar_close">
-                        <i class="fa fa-times"></i>
-                    </button>
-
-                    <a class="h5 text-white" href="{# url 'dashboard' #}">
-                        <img src="{% static 'img/logo.png' %}" class="sidebar-mini-hide" width=80%
-                             alt="Insight XM Logo"/>
-                    </a>
-                </div>
-                <!-- END Side Header -->
-
-                <!-- Side Content -->
-                <div class="side-content">
-                    <ul class="nav-main">
-                        {% comment %}
-                        <li><a {% if page_name== "Dashboard" %}class="active"{% endif %} href="{% url 'dashboard' %}"><i
-                                class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a></li>
-                        {% endcomment %}
-                    </ul>
-                </div>
-                <!-- END Side Content -->
-            </div>
-            <!-- Sidebar Content -->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'videoplayer_video_dashboard' %}">Django-Video-Player</a>
         </div>
-        <!-- END Sidebar Scroll Container -->
-    </nav>
-    <!-- END Sidebar -->
-
-    <!-- Header -->
-    <header id="header-navbar" class="content-mini content-mini-full">
-        <!-- Header Navigation Right -->
-        <ul class="nav-header pull-right">
-            <li>
-                <div class="btn-group">
-                    <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
-                        <img src="{% static 'img/avatars/avatar1.jpg' %}" alt="Avatar">
-                        {{ user.get_name }}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-header">Actions</li>
-                        {% comment %}
-                        {% if user.is_admin %}
-                        <li><a tabindex="-3" href="{% url 'admin:index' %}"><i class="si si-wrench pull-right"></i>Django
-                            admin</a></li>
-                        {% endif %}
-                        {% if request.user == user %}
-                        <li><a tabindex="-2"
-                               href="{% url 'webapp_configuration_user_change_password' request.user.get_uid %}"><i
-                                class="si si-key pull-right"></i>Change Password</a></li>
-                        {% elif allowed.administration %}
-                        <li><a tabindex="-2"
-                               href="{% url 'webapp_configuration_user_admin_change_password' request.user.get_uid %}"><i
-                                class="si si-key pull-right"></i>Change Password</a></li>
-                        {% endif %}
-                        {% endcomment %}
-                        <li><a tabindex="-1" href="{% url 'logout' %}"><i class="si si-logout pull-right"></i>Log
-                            out</a></li>
-                    </ul>
-                </div>
-            </li>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="javascript:void(0)"><span class="glyphicon glyphicon-user"></span> {{ user }} </a></li>
+             <li><a href="{% url 'videoplayer_video_create' %}"><span class="glyphicon glyphicon-upload"></span> Upload Video</a></li>
+            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
-        <!-- END Header Navigation Right -->
+    </div>
+</nav>
 
-        <!-- Header Navigation Left -->
-        <ul class="nav-header pull-left">
-            <li class="hidden-md hidden-lg">
-                <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                <button class="btn btn-default" data-toggle="layout" data-action="sidebar_toggle" type="button">
-                    <i class="fa fa-navicon"></i>
-                </button>
-            </li>
-            <li class="hidden-xs hidden-sm">
-                <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                <button class="btn btn-default" data-toggle="layout" data-action="sidebar_mini_toggle" type="button">
-                    <i class="fa fa-ellipsis-v"></i>
-                </button>
-            </li>
-            <li class="visible-xs">
-                <!-- Toggle class helper (for .js-header-search below), functionality initialized in App() -> uiToggleClass() -->
-                <button class="btn btn-default" data-toggle="class-toggle" data-target=".js-header-search"
-                        data-class="header-search-xs-visible" type="button">
-                    <i class="fa fa-search"></i>
-                </button>
-            </li>
-        </ul>
-        <!-- END Header Navigation Left -->
-    </header>
-    <!-- END Header -->
-
-    <!-- Main Container -->
+<div class="container">
     {% block content %}{% endblock %}
-    <!-- END Main Container -->
-
-    <!-- Footer -->
-    <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-gray-lighter clearfix">
-        <div class="pull-left"><a class="font-w600" href="" target="_blank">DjangoVideoPlayer</a> &copy; 2019</div>
-    </footer>
-    <!-- END Footer -->
 </div>
-<!-- END Page Container -->
-{% block extra_script %} {% endblock %}
+
 </body>
 </html>
+
+
+
+

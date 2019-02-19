@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <form action="" method="post" class="form-horizontal push-5-t" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.non_field_errors }}
@@ -15,14 +18,16 @@
                     <div class="form-material form-material-primary">
                         <label for="id_video_file">Title</label>
                         {{ form.video_file }}
-                        <div id="id_video_file-error" class="help-block animated fadeInDown">{{ form.video_file.errors }}</div>
+                        <div id="id_video_file-error" class="help-block animated fadeInDown">{{ form.video_file.errors}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-12">
                     <div class="form-material form-material-primary">
                         <label for="id_public">Allow Public Access</label>
                         {{ form.public_access }}
-                        <div id="id_public-error" class="help-block animated fadeInDown">{{ form.public_access.errors }}</div>
+                        <div id="id_public-error" class="help-block animated fadeInDown">{{ form.public_access.errors}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,4 +39,4 @@
         </div>
     </div>
 </form>
-
+{% endblock %}

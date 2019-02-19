@@ -3,7 +3,7 @@ from django.http import Http404
 
 from videos.forms import VideoForm as Form
 from videos.models import VideoModel as Model
-from videos.views.base import BaseCreateView, BaseDetailView, BaseView
+from videos.views.base import BaseCreateView, BaseDetailView, BaseView, BaseListView
 
 APP_NAME = 'videoplayer'
 MODEL = Model
@@ -67,15 +67,15 @@ class VideoPlayView(ModelPageMixin, BaseDetailView):
             # Raise 404 not found
             raise Http404
 
+        # increase the view of that video
+        video.views += 1
+        video.save()
         return super(VideoPlayView, self).get_context_data(**context)
 
-class VideoDashboardView(ModelPageMixin, BaseView):
+class VideoDashboardView(ModelPageMixin, BaseListView):
     page_name = 'Watch {}'.format(MODEL_NAME)
     template_name = '{0}_dashboard.html'.format(TEMPLATE_PATH)
+    paginate_by = 10
+    context_object_name = 'all_videos'
+    queryset = Model.active_objects.all()
 
-    def get_context_data(self, **kwargs):
-        all_videos = Model.active_objects.all()
-
-        context = {'all_videos': all_videos}
-        context.update(kwargs)
-        return super(VideoDashboardView, self).get_context_data(**context)

@@ -1,6 +1,8 @@
 import os
 
+from moviepy.editor import VideoFileClip
 from django.conf import settings
+from django.core.files import File
 from django.core.validators import MinValueValidator
 from django.db import models
 
@@ -11,12 +13,15 @@ from .validators import validate_file_extension
 
 class VideoModel(BaseModel):
 
+    THUMBNAIL_STORAGE_LOCATION = 'thumbnail'
+
     title = models.CharField(null=False,blank=False,max_length=80,unique=True)
     video_file = models.FileField(upload_to=update_filename,validators=[validate_file_extension])
     generated_link = models.CharField(null=True,blank=True,default='',max_length=180,editable=False)
     views = models.IntegerField(validators=[MinValueValidator(0)],default=0)
     public_access = models.BooleanField(default=True)
     uploaded_by = models.ForeignKey(UserModel, on_delete=models.DO_NOTHING,related_name='video_related_user')
+    thumbnail = models.ImageField(upload_to=THUMBNAIL_STORAGE_LOCATION,blank=True)
 
     def __str__(self):
         return self.title
@@ -36,6 +41,24 @@ class VideoModel(BaseModel):
     @property
     def get_comments(self):
         return self.comment_related_video.active_objects.values_list('comment',flat=True)
+
+    @property
+    def get_thumbnail(self):
+        # Change this to a celery task to improve performance
+        if not self.thumbnail:
+            video_path = os.path.join(settings.MEDIA_ROOT,str(self.video_file))
+            clip = VideoFileClip(video_path)
+            image_extention = '.jpg'
+            thumbnail_path = os.path.join(settings.MEDIA_ROOT,self.THUMBNAIL_STORAGE_LOCATION,self.title+image_extention)
+            thumnail_time = int(clip.duration)/2
+            clip.save_frame(thumbnail_path, t=thumnail_time)
+            self.thumbnail.save(
+                os.path.basename(thumbnail_path),
+                File(open(thumbnail_path, 'rb'))
+            )
+            self.save()
+        return self.thumbnail
+
 
     def save(self, *args, **kwargs):
         # Set the generated link

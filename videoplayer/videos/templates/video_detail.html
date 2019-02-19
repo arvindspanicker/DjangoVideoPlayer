@@ -1,18 +1,33 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html>
-<body>
 
+{% block extra_style %}
+#videoPlayer{
+height: 500px !important;
+width: 100% !important;
+}
+{% endblock %}
+
+{% block content %}
 <script type="text/javascript" src="{% static '/js/packages/jwplayer/jwplayer.js' %}"></script>
+<div class="row">
+    <div class="col-sm-9">
+        <div id="videoPlayer">Loading the player...</div>
+        <div class="text-center">
+            <h4>{{ video.title }}</h4>
+        </div>
+        <script type="text/javascript">
+        jwplayer("videoPlayer").setup({
+            file: "{{ video.generated_link }}",
+            image: "/media/{{ video.thumbnail }}",
+            controls : true,
+            autostart: false,
+        });
+        </script>
+    </div>
+    <div class="col-sm-3">
+        Recently Watched Videos
+    </div>
+</div>
 
-<div id="myElement">Loading the player...</div>
-<script type="text/javascript">
-    console.log("{{ video.generated_link }}");
-    jwplayer("myElement").setup({
-        file: "{{ video.generated_link }}",
-        controls : true,
-    });
-</script>
-
-</body>
-</html>
+{% endblock %}

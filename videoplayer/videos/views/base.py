@@ -1,7 +1,4 @@
-
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -9,11 +6,10 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import CreateView, DetailView, ListView, TemplateView
 
 
-
-
 class LoginRequiredMixin(object):
     user = None
     allowed = {}
+
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -58,7 +54,6 @@ class CRUDMixin(TemplateAuthenticatedMixin):
     model_urlname = ''
     model = None
 
-
     def get_context_data(self, **kwargs):
         context = super(CRUDMixin, self).get_context_data(**kwargs)
         context['action'] = self.action
@@ -69,7 +64,7 @@ class CRUDMixin(TemplateAuthenticatedMixin):
         return context
 
 
-class ModelFormMixin(SuccessMessageMixin):
+class ModelFormMixin():
     action_verb = 'processed'
     success_url_name = ''
     main_field_name = 'name'
