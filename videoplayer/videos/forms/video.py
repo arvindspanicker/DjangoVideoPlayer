@@ -1,9 +1,9 @@
 from accounts.forms.base import BaseLoggedForm
-from videoplayer.models import Video
+from videos.models import VideoModel
 
 
-class EventForm(BaseLoggedForm):
+class VideoForm(BaseLoggedForm):
 
     class Meta:
-        model = EventModel
-        fields = ['notes', 'active']
+        model = VideoModel
+        fields = ['title','video_file','public_access']

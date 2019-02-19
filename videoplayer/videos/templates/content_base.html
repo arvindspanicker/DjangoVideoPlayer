@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+   <main id="main-container">
+    <!-- Page Header -->
+    <div class="content bg-gray-lighter">
+     <div class="row items-push">
+      <div class="col-sm-7">
+       <h1 class="page-heading">
+        {{ model_name_plural }} <small>{{ model_description }}</small>
+       </h1>
+      </div>
+      <div class="col-sm-5 text-right hidden-xs">
+       <ol class="breadcrumb push-10-t">
+        {% comment %}
+        {% block breadcrumbs %}
+        {% for crumb in breadcrumbs %}
+        <li>{% if crumb.url_name %}<a class="link-effect" href="{% url crumb.url_name %}">{% endif %}{{ crumb.name }}</a></li>
+        {% endfor %}
+        <li>{{ action }}</li>
+        {% endblock %}
+        {% endcomment %}
+       </ol>
+      </div>
+     </div>
+    </div>
+    <!-- END Page Header -->
+    <!-- Page Content -->
+    {% block page_content %}{% endblock %}
+    <!-- END Page Content -->
+   </main>
+{% endblock %}

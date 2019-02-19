@@ -1,0 +1,7 @@
+{% for video in all_videos %}
+<a href="/watch_video/{{ video.uid}}">{{ video.title }}</a>
+{% endfor %}
+
+
+<br>
+<a href="{% url 'videoplayer_video_create' %}">Upload Videos</a>

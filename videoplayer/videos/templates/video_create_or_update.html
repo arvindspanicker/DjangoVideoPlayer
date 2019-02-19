@@ -1,0 +1,37 @@
+<form action="" method="post" class="form-horizontal push-5-t" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                <div class="col-xs-12">
+                    <div class="form-material form-material-primary">
+                        <label for="id_title">Title</label>
+                        {{ form.title }}
+                        <div id="id_title-error" class="help-block animated fadeInDown">{{ form.title.errors }}</div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-material form-material-primary">
+                        <label for="id_video_file">Title</label>
+                        {{ form.video_file }}
+                        <div id="id_video_file-error" class="help-block animated fadeInDown">{{ form.video_file.errors }}</div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-material form-material-primary">
+                        <label for="id_public">Allow Public Access</label>
+                        {{ form.public_access }}
+                        <div id="id_public-error" class="help-block animated fadeInDown">{{ form.public_access.errors }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12">
+            <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-check push-5-r"></i> Save</button>
+        </div>
+    </div>
+</form>
+

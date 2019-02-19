@@ -1,0 +1,23 @@
+{% extends "content_base.html" %}
+
+{% block page_content %}
+    <div class="content content-narrow">
+     <div class="row">
+      <div class1="col-md-6">
+       <div class="block">
+        <div class="block-content tab-content">
+         <div class="tab-pane active" id="list">
+	      <div class="col-sm-12 text-right content_top_links">
+	       <ol>
+	        {% block header_links %}{% endblock %}
+	       </ol>
+	      </div>
+          <h4 class="font-w300 push-15">{{ page_name }}</h4>
+          {% block page_content_crud %}{% endblock %}
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+{% endblock %}

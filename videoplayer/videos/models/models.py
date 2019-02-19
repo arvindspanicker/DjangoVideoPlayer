@@ -1,14 +1,22 @@
+import os
+
+from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from common.models import BaseModel
 from accounts.models import UserModel
+from common.models import BaseModel
+from .utils import update_filename, get_extension, format_filename, VIDEO_UPLOAD_PATH
+from .validators import validate_file_extension
 
 class VideoModel(BaseModel):
+
     title = models.CharField(null=False,blank=False,max_length=80,unique=True)
-    video_file = models.FileField(upload_to='')
-    generated_link = models.CharField(null=True,blank=True,default='',max_length=180)
+    video_file = models.FileField(upload_to=update_filename,validators=[validate_file_extension])
+    generated_link = models.CharField(null=True,blank=True,default='',max_length=180,editable=False)
     views = models.IntegerField(validators=[MinValueValidator(0)],default=0)
+    public_access = models.BooleanField(default=True)
+    uploaded_by = models.ForeignKey(UserModel, on_delete=models.DO_NOTHING,related_name='video_related_user')
 
     def __str__(self):
         return self.title
@@ -28,6 +36,14 @@ class VideoModel(BaseModel):
     @property
     def get_comments(self):
         return self.comment_related_video.active_objects.values_list('comment',flat=True)
+
+    def save(self, *args, **kwargs):
+        # Set the generated link
+        extention = get_extension(str(self.video_file))
+        formated_title = format_filename(self.title)
+        file_name = formated_title + extention
+        self.generated_link = os.path.join(settings.MEDIA_URL,VIDEO_UPLOAD_PATH,file_name)
+        super(VideoModel, self).save(*args, **kwargs)
 
 class LikeModel(BaseModel):
     user = models.ForeignKey(UserModel,on_delete=models.DO_NOTHING,related_name='likes_related_user')

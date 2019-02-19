@@ -1,0 +1,18 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<body>
+
+<script type="text/javascript" src="{% static '/js/packages/jwplayer/jwplayer.js' %}"></script>
+
+<div id="myElement">Loading the player...</div>
+<script type="text/javascript">
+    console.log("{{ video.generated_link }}");
+    jwplayer("myElement").setup({
+        file: "{{ video.generated_link }}",
+        controls : true,
+    });
+</script>
+
+</body>
+</html>
