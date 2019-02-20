@@ -5,7 +5,7 @@
 <!-- Most Popular Section -->
 <section id="most_popular_videos">
     <div class="container">
-        <h3 class="text-white font-weight-bold text-center">Most Popular Videos</h3>
+        <h2 class="text-white font-weight-bold text-center">Most Popular Videos</h2>
         <div class="row">
             <div class="col-lg-12 ">
                 {% for video in most_viewed_videos %}
@@ -21,8 +21,8 @@
                                 {{ video.title}}
                                 </h4>
                             </a>
-                            <span class="glyphicon glyphicon-thumbs-up like-icon"></span>
-                            <p class="card-subtitle mb-2 text-muted like-text">Likes</p>
+                            <span class="glyphicon glyphicon-facetime-video like-icon text-white"></span>
+                            <p class="card-subtitle mb-2 text-muted like-text text-white">Views : {{ video.views }}</p>
                             <!--<p class="card-text">Description of video-->
                             <!--content.</p>-->
                         </figure>
@@ -37,7 +37,7 @@
 <section id="all_videos">
     <div class="container">
         <div class="row">
-            <h3 class="text-white font-weight-bold text-center">Video Library</h3>
+            <h2 class="text-white font-weight-bold text-center">Video Library</h2>
             <div class="col-lg-12">
                 {% for video in all_videos %}
                 <div class="card bg-secondary">
@@ -52,8 +52,8 @@
                                     {{ video.title}}
                                 </h4>
                             </a>
-                            <span class="glyphicon glyphicon-thumbs-up like-icon"></span>
-                            <p class="card-subtitle mb-2 text-muted like-text">Likes</p>
+                            <span class="glyphicon glyphicon-facetime-video like-icon text-white"></span>
+                            <p class="card-subtitle mb-2 text-muted like-text text-white">Views : {{ video.views }}</p>
                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's-->
                             <!--content.</p>-->
                         </figure>
@@ -92,7 +92,7 @@
 <!-- Most Recent Section -->
 <section id="most_recent_videos">
     <div class="container">
-        <h3 class="text-white font-weight-bold text-center">Most Recent Videos</h3>
+        <h2 class="text-white font-weight-bold text-center">Most Recent Videos</h2>
         <div class="row">
             <div class="col-lg-12">
                 {% for video in most_recent_videos %}
@@ -108,8 +108,8 @@
                                 {{ video.title}}
                                 </h4>
                             </a>
-                            <span class="glyphicon glyphicon-thumbs-up like-icon"></span>
-                            <p class="card-subtitle mb-2 text-muted like-text">Likes</p>
+                            <span class="glyphicon glyphicon-facetime-video like-icon text-white"></span>
+                            <p class="card-subtitle mb-2 text-muted like-text text-white">Views : {{ video.views }}</p>
                             <!--<p class="card-text">Description of video-->
                             <!--content.</p>-->
                         </figure>

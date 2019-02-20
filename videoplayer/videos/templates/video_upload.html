@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12" id="my_video_slider">
-            <h2 class="text-center">My Videos</h2>
+            <h2 class="text-center text-white">My Videos</h2>
             {% for video in my_videos %}
             <div class="card bg-secondary" style="width: 23rem;">
                 <a href="/watch_video/{{ video.uid}}">
@@ -25,8 +25,8 @@
                                 {{ video.title}}
                             </h4>
                         </a>
-                        <span class="glyphicon glyphicon-thumbs-up like-icon"></span>
-                        <p class="card-subtitle mb-2 text-muted like-text">Likes</p>
+                        <span class="glyphicon glyphicon-facetime-video like-icon text-white"></span>
+                        <p class="card-subtitle mb-2 text-muted like-text text-white">Views : {{ video.views }}</p>
                         <!--<p class="card-text">Description of video-->
                         <!--content.</p>-->
                     </figure>
@@ -35,7 +35,7 @@
             {% endfor %}
         </div>
         <div class="col-sm-12">
-            <form method="post" class="form" enctype="multipart/form-data">
+            <form method="post" class="form text-white" enctype="multipart/form-data">
                 <h2 class="text-center">Upload Videos</h2>
                 {% csrf_token %}
                 {% bootstrap_form form %}

@@ -49,9 +49,10 @@ section{
     margin-top: 20px;
 }
 #my_video_slider{
-    height: 380px;
+    height: 400px;
     overflow-y: hidden;
     overflow-x: auto;
+    white-space: nowrap;
 }
 #videoPlayer{
     height: 500px !important;
@@ -74,4 +75,25 @@ section{
 .form{
     width: 75%;
     margin: auto;
+}
+
+/* Custom scroll bar*/
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #333;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #6AC045 ;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

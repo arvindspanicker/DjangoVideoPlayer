@@ -12,8 +12,11 @@
                     <!-- Captions are optional -->
                     <!--<track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default/>-->
                 </video>
+                <div class=" text-white font-weight-bold">
+                    <h2 class="text-center"> {{ video.title }} </h2>
+                </div>
             </div>
-            <div class="col-sm-12 col-md-3 col-lg-3" >
+            <div class="col-sm-12 col-md-3 col-lg-3">
                 <h3 class="text-center text-white font-weight-bold">Recently Uploaded</h3>
                 <div id="recently_added_section">
                     {% for video in recent_videos %}
@@ -29,8 +32,8 @@
                                         {{ video.title}}
                                     </h4>
                                 </a>
-                                <span class="glyphicon glyphicon-thumbs-up like-icon"></span>
-                                <p class="card-subtitle mb-2 text-muted like-text">Likes</p>
+                                <span class="glyphicon glyphicon-facetime-video like-icon text-white"></span>
+                                <p class="card-subtitle mb-2 text-muted like-text text-white">Views : {{ video.views }}</p>
                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's-->
                                 <!--content.</p>-->
                             </figure>
