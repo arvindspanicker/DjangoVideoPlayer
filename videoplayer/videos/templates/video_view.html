@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div id="video_player">
+    <div class="container">
+        <script src="{% static 'js/packages/plyr/plyr.js' %}"></script>
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-12">
+                <video poster="/media/{{ video.thumbnail }}" id="videoPlayer" playsinline controls>
+                    <source src="{{ video.generated_link }}" type="video/mp4"/>
+                    <!-- Captions are optional -->
+                    <!--<track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default/>-->
+                </video>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3" >
+                <h3 class="text-center text-white font-weight-bold">Recently Uploaded</h3>
+                <div id="recently_added_section">
+                    {% for video in recent_videos %}
+                    <div class="card bg-secondary text-white">
+                        <a href="/watch_video/{{ video.uid}}">
+                            <img class="card-img-top" src="/media/{{ video.get_thumbnail }}" height=240
+                                 alt="{{ video.title }} thumbnail">
+                        </a>
+                        <div class="card-body">
+                            <figure>
+                                <a href="/watch_video/{{ video.uid}}">
+                                    <h4 class="card-title text-center">
+                                        {{ video.title}}
+                                    </h4>
+                                </a>
+                                <span class="glyphicon glyphicon-thumbs-up like-icon"></span>
+                                <p class="card-subtitle mb-2 text-muted like-text">Likes</p>
+                                <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's-->
+                                <!--content.</p>-->
+                            </figure>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

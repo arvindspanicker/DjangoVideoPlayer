@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-lg-12 col-sm-4">
                 {% for video in most_viewed_videos %}
-                <div class="card bg-secondary" style="width: 23rem;">
+                <div class="card bg-secondary">
                     <a href="/watch_video/{{ video.uid}}">
                         <img class="card-img-top" src="/media/{{ video.get_thumbnail }}" height=240
                              alt="{{ video.title }} thumbnail">
@@ -40,7 +40,7 @@
             <h3>Video Library</h3>
             <div class="col-lg-12 col-sm-4">
                 {% for video in all_videos %}
-                <div class="card bg-secondary" style="width: 23rem;">
+                <div class="card bg-secondary">
                     <a href="/watch_video/{{ video.uid}}">
                         <img class="card-img-top" src="/media/{{ video.get_thumbnail }}" height=240
                              alt="{{ video.title }} thumbnail">
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-9 text-center">
+            <div class="col-sm-4 col-md-12 text-center">
                 {% if is_paginated %}
                 <ul class="pagination">
                     {% if page_obj.has_previous %}
@@ -96,7 +96,7 @@
         <div class="row">
             <div class="col-lg-12 col-sm-4">
                 {% for video in most_recent_videos %}
-                <div class="card bg-secondary" style="width: 23rem;">
+                <div class="card bg-secondary" >
                     <a href="/watch_video/{{ video.uid}}">
                         <img class="card-img-top" src="/media/{{ video.get_thumbnail }}" height=240
                              alt="{{ video.title }} thumbnail">

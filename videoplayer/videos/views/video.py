@@ -30,12 +30,12 @@ class VideoCreateView(ModelPageMixin, BaseCreateView):
     form_class = MODEL_FORM
     page_name = 'Create {0}'.format(MODEL_NAME)
     success_url_name = '{0}_create'.format(MODELPAGE_BASE_URL_NAME)
-    template_name = '{0}_create_or_update.html'.format(TEMPLATE_PATH)
+    template_name = '{0}_upload.html'.format(TEMPLATE_PATH)
 
     def get_context_data(self, **kwargs):
-        all_videos = Model.active_objects.all()
+        my_videos = Model.active_objects.filter(uploaded_by=self.request.user)
 
-        context = {'all_videos': all_videos}
+        context = {'my_videos': my_videos}
         context.update(kwargs)
         return super(VideoCreateView, self).get_context_data(**context)
 
@@ -50,7 +50,7 @@ class VideoCreateView(ModelPageMixin, BaseCreateView):
 
 class VideoPlayView(ModelPageMixin, BaseDetailView):
     page_name = 'Watch {}'.format(MODEL_NAME)
-    template_name = '{0}_detail.html'.format(TEMPLATE_PATH)
+    template_name = '{0}_view.html'.format(TEMPLATE_PATH)
 
     def get_context_data(self, **kwargs):
         video_uid = self.kwargs.get('uid',None)
