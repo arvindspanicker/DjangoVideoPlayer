@@ -1,6 +1,8 @@
+# Django imports
 from django.contrib.auth import views
 from django.urls import re_path
 
+# Custom imports
 from .views import UserSignUp
 
 urlpatterns = [

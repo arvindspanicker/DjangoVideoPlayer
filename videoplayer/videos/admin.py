@@ -1,4 +1,7 @@
+# Django imports
 from django.contrib import admin
+
+# Custom imports
 from videos import models
 
 

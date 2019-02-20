@@ -1,8 +1,10 @@
+# Python imports
 import uuid
 
+# Django imports
 from django.db import models
 
-
+# Custom imports
 from .managers import ActiveObjectsManager, InactiveObjectsManager
 
 # Create your models here.

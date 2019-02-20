@@ -1,18 +1,23 @@
+# Python imports
 import os
 
+# Django and Library imports
 from moviepy.editor import VideoFileClip
 from django.conf import settings
 from django.core.files import File
 from django.core.validators import MinValueValidator
 from django.db import models
 
+# Custom imports
 from accounts.models import UserModel
 from common.models import BaseModel
 from .utils import update_filename, get_extension, format_filename, VIDEO_UPLOAD_PATH
 from .validators import validate_file_extension
 
 class VideoModel(BaseModel):
-
+    """
+    Model class that stores the videos
+    """
     THUMBNAIL_STORAGE_LOCATION = 'thumbnail'
 
     title = models.CharField(null=False,blank=False,max_length=80,unique=True)
@@ -61,6 +66,9 @@ class VideoModel(BaseModel):
 
 
     def save(self, *args, **kwargs):
+        """
+        Overridden model save method to save the generated_link of the uploaded video
+        """
         # Set the generated link
         extention = get_extension(str(self.video_file))
         formated_title = format_filename(self.title)
@@ -68,6 +76,8 @@ class VideoModel(BaseModel):
         self.generated_link = os.path.join(settings.MEDIA_URL,VIDEO_UPLOAD_PATH,file_name)
         super(VideoModel, self).save(*args, **kwargs)
 
+
+# TODO: Use the below models in relation with a video
 class LikeModel(BaseModel):
     user = models.ForeignKey(UserModel,on_delete=models.DO_NOTHING,related_name='likes_related_user')
     video = models.ForeignKey(VideoModel, on_delete=models.DO_NOTHING,related_name='likes_related_video')

@@ -1,9 +1,16 @@
+# Django imports
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
+
+# Custom imports
 from .base import BaseModel
 
 
 class UserModel(BaseModel, AbstractUser):
+    """
+    Extended User model.
+    Add Additional profile features  here
+    """
     is_admin = models.BooleanField(default=False)
 
     objects = UserManager()

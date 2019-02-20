@@ -1,3 +1,6 @@
+# Settings used to deploy in the production server
+
+# Python imports
 from .default import *
 
 DEBUG = False

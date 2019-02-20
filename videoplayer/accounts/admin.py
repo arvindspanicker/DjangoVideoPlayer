@@ -1,7 +1,9 @@
+# Django imports
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 
+# Custom imports
 from accounts import models
 from accounts.forms import UserAdminForm
 
