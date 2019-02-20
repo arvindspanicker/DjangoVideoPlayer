@@ -17,7 +17,8 @@
     <style>
             {% block extra_style %} {% endblock %}
     </style>
-    <link href="{% static '/css/video_player/styles.css' %}" rel="stylesheet" type="text/css"
+    <link href="{% static '/css/video_player/styles.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static '/css/video_player/responsive.css' %}" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 
 </head>
@@ -26,7 +27,7 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{% url 'videoplayer_video_dashboard' %}">Django-Video-Player</a>
+            <a class="navbar-brand font-weight-bold" href="{% url 'videoplayer_video_dashboard' %}">Django-Video-Player</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="javascript:void(0)"><span class="glyphicon glyphicon-user"></span> {{ user }} </a></li>

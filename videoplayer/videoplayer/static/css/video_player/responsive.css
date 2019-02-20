@@ -1,0 +1,32 @@
+@media screen and (max-width:5200px){
+
+}
+
+@media screen and (max-width:1030px){
+    .card{ width: 28rem;}
+    #recently_added_section .card{ width: 19rem;}
+}
+
+@media screen and (max-width:800px){
+    .card{ width: 31rem;}
+}
+
+@media screen and (max-width:500px){
+    .card{ width: 33rem;}
+    #recently_added_section .card{ width: 33rem;}
+}
+
+@media screen and (max-width:380px){
+    .card{ width: 29rem;}
+     #recently_added_section .card{ width: 29rem;}
+}
+
+@media screen and (max-width:370px){
+    .card{ width: 28rem;}
+    #recently_added_section .card{ width: 28rem;}
+}
+
+@media screen and (max-width:325px){
+    .card{ width: 24rem;}
+    #recently_added_section .card{ width: 24rem;}
+}

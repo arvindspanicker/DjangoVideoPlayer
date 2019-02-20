@@ -5,9 +5,9 @@
 <!-- Most Popular Section -->
 <section id="most_popular_videos">
     <div class="container">
-        <h3>Most Popular Videos</h3>
+        <h3 class="text-white font-weight-bold text-center">Most Popular Videos</h3>
         <div class="row">
-            <div class="col-lg-12 col-sm-4">
+            <div class="col-lg-12 ">
                 {% for video in most_viewed_videos %}
                 <div class="card bg-secondary">
                     <a href="/watch_video/{{ video.uid}}">
@@ -17,7 +17,7 @@
                     <div class="card-body">
                         <figure>
                             <a href="/watch_video/{{ video.uid}}">
-                                <h4 class="card-title text-center">
+                                <h4 class="card-title text-center text-white font-weight-bold">
                                 {{ video.title}}
                                 </h4>
                             </a>
@@ -37,8 +37,8 @@
 <section id="all_videos">
     <div class="container">
         <div class="row">
-            <h3>Video Library</h3>
-            <div class="col-lg-12 col-sm-4">
+            <h3 class="text-white font-weight-bold text-center">Video Library</h3>
+            <div class="col-lg-12">
                 {% for video in all_videos %}
                 <div class="card bg-secondary">
                     <a href="/watch_video/{{ video.uid}}">
@@ -48,7 +48,7 @@
                     <div class="card-body">
                         <figure>
                             <a href="/watch_video/{{ video.uid}}">
-                                <h4 class="card-title text-center">
+                                <h4 class="card-title text-center text-white font-weight-bold">
                                     {{ video.title}}
                                 </h4>
                             </a>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4 col-md-12 text-center">
+            <div class="col-md-12 text-center">
                 {% if is_paginated %}
                 <ul class="pagination">
                     {% if page_obj.has_previous %}
@@ -92,9 +92,9 @@
 <!-- Most Recent Section -->
 <section id="most_recent_videos">
     <div class="container">
-        <h3>Most Recent Videos</h3>
+        <h3 class="text-white font-weight-bold text-center">Most Recent Videos</h3>
         <div class="row">
-            <div class="col-lg-12 col-sm-4">
+            <div class="col-lg-12">
                 {% for video in most_recent_videos %}
                 <div class="card bg-secondary" >
                     <a href="/watch_video/{{ video.uid}}">
@@ -104,7 +104,7 @@
                     <div class="card-body">
                         <figure>
                             <a href="/watch_video/{{ video.uid}}">
-                                <h4 class="card-title text-center">
+                                <h4 class="card-title text-center text-white font-weight-bold">
                                 {{ video.title}}
                                 </h4>
                             </a>
