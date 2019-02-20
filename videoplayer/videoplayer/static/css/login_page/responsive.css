@@ -1,0 +1,12 @@
+@media screen and (max-width:5200px){
+ .form {width: 25%;}
+}
+@media screen and (max-width:2058px){
+ .form {width: 50%;}
+}
+@media screen and (max-width:500px){
+    .form {width: 70%;}
+}
+@media screen and (max-width:350px){
+    .form {width: 80%;}
+}

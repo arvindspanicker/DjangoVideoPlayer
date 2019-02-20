@@ -34,3 +34,7 @@ body {
 .form label{
     color: white !important;
 }
+
+button{
+    margin-right: 30px;
+}
