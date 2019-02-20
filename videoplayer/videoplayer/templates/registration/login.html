@@ -1,37 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Video-Player | Sign In</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    {% load bootstrap3 %}
-    {% load staticfiles %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery=1 %}
+{% extends 'registration/registration_base.html' %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery=1 %}
 
-    {% bootstrap_messages %}
+{% bootstrap_messages %}
 
-    <link rel="stylesheet" href="{% static '/css/login_page/styles.css' %}" type="text/css">
 
-  </head>
-  <body class="text-center">
-    <form method="post" class="form">
-      <h2>Login</h2>
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      {% buttons %}
-        <button type="submit" class="btn btn-success">
-          {% bootstrap_icon "log-in" %} Login
-        </button>
-        <a class="btn btn-danger" href="{% url 'signup' %}">
-          {% bootstrap_icon "log-out" %} Sign Up
-        </a>
-      {% endbuttons %}
-    </form>
-  </body>
-</html>
+{% block content %}
+<form method="post" class="form">
+    <h2>Login</h2>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button type="submit" class="btn btn-success">
+        {% bootstrap_icon "log-in" %} Login
+    </button>
+    <a class="btn btn-danger" href="{% url 'signup' %}">
+        {% bootstrap_icon "log-out" %} Sign Up
+    </a>
+    {% endbuttons %}
+</form>
+{% endblock %}

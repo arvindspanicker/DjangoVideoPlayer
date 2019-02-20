@@ -1,0 +1,53 @@
+body{
+background: #1C1C1C;
+}
+a {
+text-decoration: none;
+}
+a:hover
+{
+text-decoration:none;
+cursor:pointer;
+}
+.card-title{
+color: white;
+font-weight: bold;
+}
+section h3{
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
+.card{
+display: inline-block;
+margin: 5px 5px 5px 25px;
+border: 4px white solid;
+}
+.card img{
+width:100%;
+}
+.navbar-brand{
+color: #6AC045 !important;
+font-weight: bold;
+font-size: 20px;
+}
+.card:hover{
+border: 4px  #6AC045 solid;
+}
+.like-icon, .like-text{
+display: inline-block;
+margin: 1px;
+}
+section{
+width:100%;
+}
+#all_videos{
+background: #171717;
+}
+#most_popular_videos,#all_videos,#most_recent_videos{
+    padding-bottom: 40px;
+}
+#video_title,#recently_added_section{
+    color: white;
+    font-weight: bold;
+}

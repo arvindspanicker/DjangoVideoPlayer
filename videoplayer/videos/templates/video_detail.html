@@ -9,25 +9,49 @@ width: 100% !important;
 {% endblock %}
 
 {% block content %}
-<script type="text/javascript" src="{% static '/js/packages/jwplayer/jwplayer.js' %}"></script>
-<div class="row">
-    <div class="col-sm-9">
-        <div id="videoPlayer">Loading the player...</div>
-        <div class="text-center">
-            <h4>{{ video.title }}</h4>
+<div id="video_player">
+    <div class="container">
+        <script type="text/javascript" src="{% static '/js/packages/jwplayer/jwplayer.js' %}"></script>
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-12">
+                <div id="videoPlayer">Loading the player...</div>
+                <div class="text-center" id="video_title">
+                    <h3>{{ video.title }}</h3>
+                </div>
+                <script type="text/javascript">
+                    jwplayer("videoPlayer").setup({
+                        file: "{{ video.generated_link }}",
+                        image: "/media/{{ video.thumbnail }}",
+                        controls : true,
+                        autostart: false,
+                    });
+                </script>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3" id="recently_added_section">
+                <h3 class="text-center">Recently Watched</h3>
+                {% for video in recent_videos %}
+                <div class="card bg-secondary text-white" style="width: 23rem;">
+                    <a href="/watch_video/{{ video.uid}}">
+                        <img class="card-img-top" src="/media/{{ video.get_thumbnail }}" height=240
+                             alt="{{ video.title }} thumbnail">
+                    </a>
+                    <div class="card-body">
+                        <figure>
+                            <a href="/watch_video/{{ video.uid}}">
+                                <h4 class="card-title text-center">
+                                    {{ video.title}}
+                                </h4>
+                            </a>
+                            <span class="glyphicon glyphicon-thumbs-up like-icon"></span>
+                            <p class="card-subtitle mb-2 text-muted like-text">Likes</p>
+                            <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's-->
+                            <!--content.</p>-->
+                        </figure>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        <script type="text/javascript">
-        jwplayer("videoPlayer").setup({
-            file: "{{ video.generated_link }}",
-            image: "/media/{{ video.thumbnail }}",
-            controls : true,
-            autostart: false,
-        });
-        </script>
-    </div>
-    <div class="col-sm-3">
-        Recently Watched Videos
     </div>
 </div>
-
 {% endblock %}

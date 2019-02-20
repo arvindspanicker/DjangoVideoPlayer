@@ -57,11 +57,15 @@ class VideoPlayView(ModelPageMixin, BaseDetailView):
         current_user = self.request.user
         video = Model.active_objects.get(uid=video_uid) if video_uid else None
 
+        # Get recent videos
+        context = {
+            'recent_videos': Model.active_objects.filter(public_access=True).order_by('-id')[:2]
+        }
         if video:
             if (not video.public_access ) and (video.uploaded_by != current_user):
                 # If private video, only the uploaded member can access it
                 raise PermissionDenied()
-            context = {'video': video}
+            context['video'] = video
 
         else:
             # Raise 404 not found
@@ -75,7 +79,19 @@ class VideoPlayView(ModelPageMixin, BaseDetailView):
 class VideoDashboardView(ModelPageMixin, BaseListView):
     page_name = 'Watch {}'.format(MODEL_NAME)
     template_name = '{0}_dashboard.html'.format(TEMPLATE_PATH)
-    paginate_by = 10
+    paginate_by = 8
     context_object_name = 'all_videos'
     queryset = Model.active_objects.all()
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(VideoDashboardView, self).get_context_data(**kwargs)
+
+        # Get the most popular 10 videos
+        context['most_viewed_videos'] = Model.active_objects.filter(views__gt=0).order_by('-views')[:4]
+
+        # Get the most recent ten videos
+        context['most_recent_videos'] = Model.active_objects.all().order_by('-id')[:4]
+
+        return context
 
