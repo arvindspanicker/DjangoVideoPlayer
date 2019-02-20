@@ -8,6 +8,7 @@
         <h2 class="text-white font-weight-bold text-center">Most Popular Videos</h2>
         <div class="row">
             <div class="col-lg-12 ">
+                {% if most_viewed_videos|length != 0 %}
                 {% for video in most_viewed_videos %}
                 <div class="card bg-secondary">
                     <a href="/watch_video/{{ video.uid}}">
@@ -18,7 +19,7 @@
                         <figure>
                             <a href="/watch_video/{{ video.uid}}">
                                 <h4 class="card-title text-center text-white font-weight-bold">
-                                {{ video.title}}
+                                    {{ video.title}}
                                 </h4>
                             </a>
                             <span class="glyphicon glyphicon-facetime-video like-icon text-white"></span>
@@ -29,6 +30,16 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% else %}
+                <h1 class="text-white font-weight-bold font-green text-center">No Videos. Please Upload</h1>
+                <div class="text-center upload_section">
+                    <button class="btn btn-success">
+                        <span class="glyphicon glyphicon-upload"></span>
+                        <a class="btn btn-sucess text-white text-center" href="{% url 'videoplayer_video_upload' %}">Upload Video
+                        </a>
+                    </button>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -39,6 +50,7 @@
         <div class="row">
             <h2 class="text-white font-weight-bold text-center">Video Library</h2>
             <div class="col-lg-12">
+                {% if all_videos|length != 0 %}
                 {% for video in all_videos %}
                 <div class="card bg-secondary">
                     <a href="/watch_video/{{ video.uid}}">
@@ -60,8 +72,12 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% else %}
+                <h1 class="text-white font-weight-bold font-green text-center">No Videos. Please Upload</h1>
+                {% endif %}
             </div>
         </div>
+        {% if most_viewed_videos|length == 0 %}
         <div class="row">
             <div class="col-md-12 text-center">
                 {% if is_paginated %}
@@ -87,6 +103,7 @@
                 {% endif %}
             </div>
         </div>
+        {% endif %}
     </div>
 </section>
 <!-- Most Recent Section -->
@@ -95,8 +112,9 @@
         <h2 class="text-white font-weight-bold text-center">Most Recent Videos</h2>
         <div class="row">
             <div class="col-lg-12">
+                {% if most_recent_videos|length != 0 %}
                 {% for video in most_recent_videos %}
-                <div class="card bg-secondary" >
+                <div class="card bg-secondary">
                     <a href="/watch_video/{{ video.uid}}">
                         <img class="card-img-top" src="/media/{{ video.get_thumbnail }}" height=240
                              alt="{{ video.title }} thumbnail">
@@ -105,7 +123,7 @@
                         <figure>
                             <a href="/watch_video/{{ video.uid}}">
                                 <h4 class="card-title text-center text-white font-weight-bold">
-                                {{ video.title}}
+                                    {{ video.title}}
                                 </h4>
                             </a>
                             <span class="glyphicon glyphicon-facetime-video like-icon text-white"></span>
@@ -116,6 +134,9 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% else %}
+                <h1 class="text-white font-weight-bold font-green text-center">No Videos. Please Upload</h1>
+                {% endif %}
             </div>
         </div>
     </div>

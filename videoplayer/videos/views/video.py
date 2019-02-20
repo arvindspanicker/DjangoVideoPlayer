@@ -38,7 +38,7 @@ class VideoUploadView(ModelPageMixin, BaseCreateView):
     """
     form_class = MODEL_FORM
     page_name = 'Create {0}'.format(MODEL_NAME)
-    success_url_name = '{0}_create'.format(MODELPAGE_BASE_URL_NAME)
+    success_url_name = '{0}_upload'.format(MODELPAGE_BASE_URL_NAME)
     template_name = '{0}_upload.html'.format(TEMPLATE_PATH)
 
     def get_context_data(self, **kwargs):

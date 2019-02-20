@@ -76,6 +76,12 @@ section{
     width: 75%;
     margin: auto;
 }
+.font-green{
+    color: #6AC045 !important;
+}
+.upload_section a,.upload_section span{
+    font-size: 24px;
+}
 
 /* Custom scroll bar*/
 /* width */
