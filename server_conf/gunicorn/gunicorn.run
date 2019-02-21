@@ -1,0 +1,23 @@
+#!/bin/sh
+NAME="videoplayer"
+PROJECT_DIR="${HOME}/DjangoVideoPlayer/videoplayer"
+USER=ubuntu
+GROUP=ubuntu
+NUM_WORKERS=3
+PROJECT_SETTINGS=videoplayer.settings.production
+PROJECT_WSGI=videoplayer.wsgi
+BIND_DIR=${HOME}/.videoplayer/bin/
+echo "Starting $NAME as `whoami`"
+
+# Start beagle Unicorn
+# Programs meant to be run under supervisor should not daemonize themselves ( don not use --deamon)
+
+cd ${PROJECT_DIR}
+exec ${BIND_DIR}gunicorn ${PROJECT_WSGI}:application \
+   --env DJANGO_SETTINGS_MODULE=$PROJECT_SETTINGS \
+   --name $NAME \
+   --workers $NUM_WORKERS \
+   --timeout 300 \
+   --bind=0.0.0.0:8000 \
+   --log-level=debug \
+   --log-file=${PROJECT_DIR}/log/app_gunicorn.log
