@@ -26,6 +26,9 @@ sudo systemctl enable postgresql-9.6
 sudo yum -y install supervisor
 sudo systemctl start supervisord
 sudo systemctl enable supervisord
+sudo yum -y install gdal gdal-devel 
+sudo yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
+sudo yum install ffmpeg ffmpeg-devel
 }
 
 function install_python {
