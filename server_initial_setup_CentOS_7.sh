@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-su - 
-
 function print_info {
         echo -n $1
 }
@@ -16,15 +14,16 @@ source ${HOME}/.videoplayer/bin/activate
 
 function install_dependency_packages {
 print_info "============INSTALLING DEPENDENCIES PACKAGES============"
-sudo yum install epel-release
-sudo yum install nginx
+sudo yum -y install wget
+sudo yum  -y install epel-release
+sudo yum -y install nginx
 wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-sudo yum install pgdg-centos96-9.6-3.noarch.rpm epel-release
+sudo yum -y install pgdg-centos96-9.6-3.noarch.rpm epel-release
 sudo yum update
-sudo yum install postgresql96-server postgresql96-contrib
+sudo yum -y install postgresql96-server postgresql96-contrib
 sudo systemctl start postgresql-9.6
 sudo systemctl enable postgresql-9.6
-sudo yum install supervisor
+sudo yum -y install supervisor
 sudo systemctl start supervisord
 sudo systemctl enable supervisord
 }
@@ -106,7 +105,12 @@ function configure_supervisor {
 print_info "Starting installation script..."
 
 print_info "Updating apt packages ..."
-yum update
+sudo yum update
+
+sleep 5
+
+print_info "Installing Python "
+install_python
 
 sleep 5
 
@@ -137,6 +141,9 @@ configure_nginx
 
 print_info "Starting application configuration"
 print_info "Migrating database changes.........................................."
+
+
+cd ${PROJECT_ROOT}
 python manage.py migrate --settings=videoplayer.settings.production
 
 
