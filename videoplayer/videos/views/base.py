@@ -1,4 +1,7 @@
-# Custom imports
+# Python imports
+import logging
+
+# Django imports
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
@@ -6,6 +9,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import CreateView, DetailView, ListView, TemplateView
 
+
+logger = logging.getLogger(__name__)
 
 class LoginRequiredMixin(object):
     """
@@ -39,9 +44,13 @@ class LoginRequiredMixin(object):
         is passed here
         """
         context = {}
-        context['user'] = self.user
-        context['allowed'] = self.allowed
-        context.update(kwargs)
+        try:
+            context['user'] = self.user
+            context['allowed'] = self.allowed
+            context.update(kwargs)
+        except Exception as e:
+            logger.error('Error inside get_context_data of LoginRequiredMixin. ERROR : {}'.format(str(e)))
+
         return super(LoginRequiredMixin, self).get_context_data(**context)
 
 
@@ -56,9 +65,13 @@ class TemplateAuthenticatedMixin(LoginRequiredMixin):
         Data like page_name and section name is passed here.
         """
         context = super(TemplateAuthenticatedMixin, self).get_context_data(**kwargs)
-        context['breadcrumbs'] = self.breadcrumbs
-        context['page_name'] = self.page_name
-        context['section_name'] = self.section_name
+        try:
+            context['breadcrumbs'] = self.breadcrumbs
+            context['page_name'] = self.page_name
+            context['section_name'] = self.section_name
+        except Exception as e:
+            logger.error('Error inside get_context_data of TemplateAuthenticatedMixin. ERROR : {}'.format(str(e)))
+
         return context
 
 
@@ -72,11 +85,15 @@ class CRUDMixin(TemplateAuthenticatedMixin):
 
     def get_context_data(self, **kwargs):
         context = super(CRUDMixin, self).get_context_data(**kwargs)
-        context['action'] = self.action
-        context['model_description'] = self.model_description
-        context['model_name'] = self.model_name
-        context['model_name_plural'] = self.model_name_plural
-        context['model_urlname'] = self.model_name.replace(' ', '_').lower()
+        try:
+            context['action'] = self.action
+            context['model_description'] = self.model_description
+            context['model_name'] = self.model_name
+            context['model_name_plural'] = self.model_name_plural
+            context['model_urlname'] = self.model_name.replace(' ', '_').lower()
+        except Exception as e:
+            logger.error('Error inside get_context_data of CRUDMixin. ERROR : {}'.format(str(e)))
+
         return context
 
 
@@ -120,7 +137,11 @@ class BaseListView(CRUDMixin, ListView):
     action = 'List'
 
     def get_queryset(self):
-        self.queryset = self.model.active_objects.all()
+        try:
+            self.queryset = self.model.active_objects.all()
+        except Exception as e:
+            logger.error('Error inside get_queryset of BaseListView. ERROR : {}'.format(str(e)))
+
         return super(BaseListView, self).get_queryset()
 
 

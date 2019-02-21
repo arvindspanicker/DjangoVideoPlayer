@@ -1,3 +1,6 @@
+# Python imports
+import logging
+
 # Django imports
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -17,6 +20,8 @@ MODEL_NAME = MODEL._meta.verbose_name
 MODEL_NAME_PLURAL = MODEL._meta.verbose_name_plural
 TEMPLATE_PATH = '{0}'.format(MODEL_NAME.replace(' ', '_').lower())
 MODELPAGE_BASE_URL_NAME = '{0}_{1}'.format(APP_NAME, MODEL_NAME.replace(' ', '_').lower())
+
+logger = logging.getLogger(__name__)
 
 
 class ModelPageMixin(object):
@@ -45,9 +50,13 @@ class VideoUploadView(ModelPageMixin, BaseCreateView):
         """
         Function to pass the context data while rendering the page.
         """
-        my_videos = Model.active_objects.filter(uploaded_by=self.request.user).order_by('-id')
+        context = {}
+        try:
+            my_videos = Model.active_objects.filter(uploaded_by=self.request.user).order_by('-id')
+            context = {'my_videos': my_videos}
+        except Exception as e:
+            logger.error('Error inside get_context_data of VideoUploadView. ERROR : {}'.format(str(e)))
 
-        context = {'my_videos': my_videos}
         context.update(kwargs)
         return super(VideoUploadView, self).get_context_data(**context)
 
@@ -55,8 +64,12 @@ class VideoUploadView(ModelPageMixin, BaseCreateView):
         """
         Overriding the inbuild method to save the current user instance
         """
-        current_instance = form.instance
-        current_instance.uploaded_by = self.request.user
+        try:
+            current_instance = form.instance
+            current_instance.uploaded_by = self.request.user
+        except Exception as e:
+            logger.error('Error inside form_valid of VideoUploadView. ERROR : {}'.format(str(e)))
+
         return super(VideoUploadView, self).form_valid(form)
 
 
@@ -71,28 +84,32 @@ class VideoPlayView(ModelPageMixin, BaseDetailView):
         """
         Function to pass the context data while rendering the page.
         """
-        video_uid = self.kwargs.get('uid', None)
-        current_user = self.request.user
-        video = Model.active_objects.get(uid=video_uid) if video_uid else None
+        try:
+            video_uid = self.kwargs.get('uid', None)
+            current_user = self.request.user
+            video = Model.active_objects.get(uid=video_uid) if video_uid else None
 
-        # Get recent videos
-        context = {
-            'recent_videos': Model.active_objects. \
-                                 filter(Q(public_access=True) | Q(uploaded_by=self.request.user)).order_by('-id')[:5]
-        }
-        if video:
-            if (not video.public_access) and (video.uploaded_by != current_user):
-                # If private video, only the uploaded member can access it
-                raise PermissionDenied()
-            context['video'] = video
+            # Get recent videos
+            context = {
+                'recent_videos': Model.active_objects. \
+                                     filter(Q(public_access=True) | Q(uploaded_by=self.request.user)).order_by('-id')[:5]
+            }
+            if video:
+                if (not video.public_access) and (video.uploaded_by != current_user):
+                    # If private video, only the uploaded member can access it
+                    raise PermissionDenied()
+                context['video'] = video
 
-        else:
-            # Raise 404 not found
-            raise Http404
+            else:
+                # Raise 404 not found
+                raise Http404
 
-        # increase the view of that video
-        video.views += 1
-        video.save()
+            # increase the view of that video
+            video.views += 1
+            video.save()
+        except Exception as e:
+            logger.error('Error inside get_context_data of VideoPlayView. ERROR : {}'.format(str(e)))
+
         return super(VideoPlayView, self).get_context_data(**context)
 
 
@@ -106,26 +123,35 @@ class VideoDashboardView(ModelPageMixin, BaseListView):
     context_object_name = 'all_videos'
 
     def get_queryset(self):
-        # Get all videos for dashboard
-        queryset = Model.active_objects.filter(Q(public_access=False) | Q(uploaded_by=self.request.user))
+        try:
+            # Get all videos for dashboard
+            queryset = Model.active_objects.filter(Q(public_access=False) | Q(uploaded_by=self.request.user))
+        except Exception as e:
+            logger.error('Error inside get_queryset of VideoDashboardView. ERROR : {}'.format(str(e)))
+
         return queryset
 
     def get_context_data(self, **kwargs):
         """
         Function to pass the context data while rendering the page.
         """
-        # Call the base implementation first to get a context
-        context = super(VideoDashboardView, self).get_context_data(**kwargs)
+        context = {}
+        try:
+            # Call the base implementation first to get a context
+            context = super(VideoDashboardView, self).get_context_data(**kwargs)
 
-        # Get the most popular 10 videos
-        context['most_viewed_videos'] = Model.active_objects. \
-                                            filter(
-            Q(public_access=True) | Q(uploaded_by=self.request.user) & Q(views__gt=0)). \
-                                            order_by('-views')[:4]
+            # Get the most popular 10 videos
+            context['most_viewed_videos'] = Model.active_objects. \
+                                                filter(
+                Q(public_access=True) | Q(uploaded_by=self.request.user) & Q(views__gt=0)). \
+                                                order_by('-views')[:4]
 
-        # Get the most recent ten videos
-        context['most_recent_videos'] = Model.active_objects. \
-                                            filter(Q(public_access=True) | Q(uploaded_by=self.request.user)). \
-                                            order_by('-id')[:4]
+            # Get the most recent ten videos
+            context['most_recent_videos'] = Model.active_objects. \
+                                                filter(Q(public_access=True) | Q(uploaded_by=self.request.user)). \
+                                                order_by('-id')[:4]
+
+        except Exception as e:
+            logger.error('Error inside get_context_data of VideoDashboardView. ERROR : {}'.format(str(e)))
 
         return context

@@ -1,4 +1,5 @@
 .idea
 .videoplayer
 __pycache__
-uploaded_media
+*.pyc
+*.log
