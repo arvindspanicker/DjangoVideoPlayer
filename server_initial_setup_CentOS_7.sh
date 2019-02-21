@@ -77,7 +77,7 @@ function configure_gunicorn {
 function configure_nginx {
     #nginx -v
     CONFIG_FILE="/etc/nginx/sites-enabled/nginx_videoplayer.conf"
-    sudo cp -f ${SOURCE_DIR}/nginx_beagle.conf ${NGINX_DIR}
+    sudo cp -f ${SOURCE_DIR}/nginx_videoplayer.conf ${NGINX_DIR}
     sudo rm -rf /etc/nginx/sites-enabled/default
     sudo sed --in-place "s'\${HOME}'$HOME'g" ${NGINX_DIR}/nginx_videoplayer.conf
     
