@@ -18,9 +18,9 @@ sudo yum -y install wget
 sudo yum  -y install epel-release
 sudo yum -y install nginx
 
-sudo yum localinstall http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+sudo yum -y localinstall http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
 sudo yum list postgres*
-sudo yum install -y postgresql95-server.x86_64 postgresql95-contrib.x86_64 postgresql95-libs.x86_64 
+sudo yum -y install postgresql95-server.x86_64 postgresql95-contrib.x86_64 postgresql95-libs.x86_64 
 sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
 sudo systemctl enable postgresql-9.5.service
 sudo systemctl start postgresql-9.5.service 
