@@ -17,18 +17,26 @@ print_info "============INSTALLING DEPENDENCIES PACKAGES============"
 sudo yum -y install wget
 sudo yum  -y install epel-release
 sudo yum -y install nginx
-wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-sudo yum -y install pgdg-centos96-9.6-3.noarch.rpm epel-release
-sudo yum update
-sudo yum -y install postgresql96-server postgresql96-contrib
-sudo systemctl start postgresql-9.6
-sudo systemctl enable postgresql-9.6
+
+sudo yum localinstall http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+sudo yum list postgres*
+sudo yum install -y postgresql95-server.x86_64 postgresql95-contrib.x86_64 postgresql95-libs.x86_64 
+sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
+sudo systemctl enable postgresql-9.5.service
+sudo systemctl start postgresql-9.5.service 
+
+#wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+#sudo yum -y install pgdg-centos96-9.6-3.noarch.rpm epel-release
+#sudo yum update
+#sudo yum -y install postgresql96-server postgresql96-contrib
+#sudo systemctl start postgresql-9.6
+#sudo systemctl enable postgresql-9.6
 sudo yum -y install supervisor
 sudo systemctl start supervisord
 sudo systemctl enable supervisord
 sudo yum -y install gdal gdal-devel 
-sudo yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
-sudo yum install ffmpeg ffmpeg-devel
+sudo yum -y localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
+sudo yum -y install ffmpeg ffmpeg-devel
 }
 
 function install_python {
@@ -44,7 +52,7 @@ sudo yum -y install python36u-devel
 }
 
 PROJECT_ROOT="${HOME}/DjangoVideoPlayer/videoplayer"
-SUPERVISOR_DIR="/etc/supervisor/conf.d"
+SUPERVISOR_FILE="/etc/supervisord.conf"
 GUNICORN_DIR="${HOME}/DjangoVideoPlayer//server_conf/gunicorn"
 NGINX_DIR="/etc/nginx/sites-enabled"
 SOURCE_DIR="${HOME}/DjangoVideoPlayer/server_conf"
@@ -72,12 +80,10 @@ EOF
 
 
 function configure_gunicorn {
-    #gunicorn --version
     sudo sed --in-place "s'\${HOME}'$HOME'g" ${GUNICORN_DIR}/gunicorn.run
 }
 
 function configure_nginx {
-    #nginx -v
     CONFIG_FILE="/etc/nginx/sites-enabled/nginx_videoplayer.conf"
     sudo cp -f ${SOURCE_DIR}/nginx_videoplayer.conf ${NGINX_DIR}
     sudo rm -rf /etc/nginx/sites-enabled/default
@@ -88,19 +94,19 @@ function configure_nginx {
 }
 
 function configure_supervisor {
-    #supervisord --version
+	CONFIG=${SOURCE_DIR}/supervisor_videoplayer.conf
 	
-    sudo cp -rf ${SOURCE_DIR}/supervisor_videoplayer.conf ${SUPERVISOR_DIR}/
+	sudo cat "$CONFIG" >> "$SUPERVISOR_FILE"
 
-    sudo sed --in-place "s'\${HOME}'$HOME'g" ${SUPERVISOR_DIR}/supervisor_videoplayer.conf
-    sudo sed --in-place "s'\${USER}'$USER'g" ${SUPERVISOR_DIR}/supervisor_videoplayer.conf
+	sudo sed --in-place "s'\${HOME}'$HOME'g" ${SUPERVISOR_FILE}
+	sudo sed --in-place "s'\${USER}'$USER'g" ${SUPERVISOR_FILE}
 
-   
-    sudo supervisorctl update
-    print_info "Updating supervisor configuration files..."
 
-    sudo supervisorctl restart all
-    print_info "Restarting all supervisor programs ..."
+	sudo supervisorctl reread
+	print_info "Updating supervisor configuration files..."
+
+	sudo supervisorctl restart all
+	print_info "Restarting all supervisor programs ..."
 }
 
 
@@ -133,12 +139,18 @@ sleep 5
 print_info "Configuring gunicorn ..."
 configure_gunicorn
 
+sleep 5
+
 print_info "Configuring postgreSQL..."
 configure_postgresql
+
+sleep 5
 
 print_info "Configuring supervisor..."
 configure_supervisor
 
+sleep 5
+		
 print_info "Configuring Nginx..."
 configure_nginx
 
