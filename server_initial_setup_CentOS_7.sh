@@ -94,9 +94,8 @@ function configure_nginx {
 }
 
 function configure_supervisor {
-	CONFIG=${SOURCE_DIR}/supervisor_videoplayer.conf
-	
-	sudo cat "$CONFIG" >> "$SUPERVISOR_FILE"
+
+	sudo scp  ${SOURCE_DIR}/supervisor_videoplayer.conf /etc/
 
 	sudo sed --in-place "s'\${HOME}'$HOME'g" ${SUPERVISOR_FILE}
 	sudo sed --in-place "s'\${USER}'$USER'g" ${SUPERVISOR_FILE}
