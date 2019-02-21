@@ -125,7 +125,7 @@ class VideoDashboardView(ModelPageMixin, BaseListView):
     def get_queryset(self):
         try:
             # Get all videos for dashboard
-            queryset = Model.active_objects.filter(Q(public_access=False) | Q(uploaded_by=self.request.user))
+            queryset = Model.active_objects.filter(Q(public_access=True) | Q(uploaded_by=self.request.user))
         except Exception as e:
             logger.error('Error inside get_queryset of VideoDashboardView. ERROR : {}'.format(str(e)))
 
