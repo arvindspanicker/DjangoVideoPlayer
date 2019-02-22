@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function print_info {
-        echo -n $1
+        printf -n $1 
 }
 
 function create_virtal_environment {
@@ -53,7 +53,7 @@ sudo yum -y install python36u-devel
 
 PROJECT_ROOT="${HOME}/DjangoVideoPlayer/videoplayer"
 SUPERVISOR_FILE="/etc/supervisord.conf"
-GUNICORN_DIR="${HOME}/DjangoVideoPlayer//server_conf/gunicorn"
+GUNICORN_DIR="${HOME}/DjangoVideoPlayer/server_conf/gunicorn"
 NGINX_DIR="/etc/nginx/sites-enabled"
 SOURCE_DIR="${HOME}/DjangoVideoPlayer/server_conf"
 APPLICATION_DB="djangovideoplayer"
@@ -94,7 +94,7 @@ function configure_nginx {
 }
 
 function configure_supervisor {
-	CONFIG=${SOURCE_DIR}/supervisor_videoplayer.conf
+	CONFIG=${SOURCE_DIR}/supervisord.conf
 	
 	sudo cat "$CONFIG" >> "$SUPERVISOR_FILE"
 
@@ -166,7 +166,7 @@ python manage.py migrate --settings=videoplayer.settings.production
 python manage.py createsuperuser --settings=videoplayer.settings.production
 
 print_info "Running application collect static..."
-python manage.py collectstatic --no-input ---settings=videoplayer.settings.production
+python manage.py collectstatic --settings=videoplayer.settings.production
 
 print_info "Restarting all services..."
 sudo supervisorctl restart all
