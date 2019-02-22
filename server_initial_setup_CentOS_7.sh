@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function print_info {
-        printf '\e[1;34m%-6s\e[m' $1 '\n'
+        printf '\e[1;34m%-6s\e[m' $1 
 }
 
 function create_virtal_environment {
@@ -17,25 +17,6 @@ print_info "============INSTALLING DEPENDENCIES PACKAGES============"
 sudo yum -y install wget
 sudo yum  -y install epel-release
 sudo yum -y install nginx
-
-#sudo yum -y localinstall http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
-#sudo yum list postgres*
-#sudo yum -y install postgresql95-server.x86_64 postgresql95-contrib.x86_64 postgresql95-libs.x86_64 
-#sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
-#sudo systemctl enable postgresql-9.5.service
-#sudo systemctl start postgresql-9.5.service 
-sudo yum -y install postgresql-server postgresql-contrib
-sudo postgresql-setup initdb
-sudo sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/data/pg_hba.conf
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
-
-#wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-#sudo yum -y install pgdg-centos96-9.6-3.noarch.rpm epel-release
-#sudo yum update
-#sudo yum -y install postgresql96-server postgresql96-contrib
-#sudo systemctl start postgresql-9.6
-#sudo systemctl enable postgresql-9.6
 sudo yum -y install supervisor
 sudo systemctl start supervisord
 sudo systemctl enable supervisord
@@ -69,6 +50,21 @@ POSTGRES_PASSWORD="postgres"
 
 
 export DJANGO_SETTINGS_MODULE="videoplayer.settings.production"
+
+function install_postgresql {
+sudo yum update -y
+sudo yum install -y epel-release
+sudo rpm -ivh https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm
+sudo yum install -y postgresql10-server postgis24_10 postgis24_10-client
+sudo systemctl enable postgresql-10
+sudo /usr/pgsql-10/bin/postgresql-10-setup initdb
+sudo systemctl start postgresql-10
+sudo sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/10/data/pg_hba.conf
+sudo systemctl restart postgresql-10
+}
+
+
+
 
 function configure_postgresql {
     export PGPASSWORD="${POSTGRES_PASSWORD}"; psql -U postgres -h 127.0.0.1 << EOF
@@ -123,6 +119,9 @@ print_info "Updating apt packages ..."
 sudo yum -y update
 
 sleep 5
+
+print_info "Installing Postgres........."
+install_postgresql
 
 print_info "Installing Python "
 install_python

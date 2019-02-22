@@ -15,6 +15,21 @@ POSTGRES_PASSWORD="postgres"
 
 export DJANGO_SETTINGS_MODULE="videoplayer.settings.production"
 
+function install_postgresql {
+sudo yum update -y
+sudo yum install -y epel-release
+sudo rpm -ivh https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm
+sudo yum install -y postgresql10-server postgis24_10 postgis24_10-client
+sudo systemctl enable postgresql-10
+sudo /usr/pgsql-10/bin/postgresql-10-setup initdb
+sudo systemctl start postgresql-10
+sudo sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/10/data/pg_hba.conf
+sudo systemctl restart postgresql-10
+}
+
+
+
+
 function configure_postgresql {
     export PGPASSWORD="${POSTGRES_PASSWORD}"; psql -U postgres -h 127.0.0.1 << EOF
     CREATE DATABASE ${APPLICATION_DB};
@@ -29,10 +44,5 @@ function configure_postgresql {
 EOF
 }
 
-sudo yum -y install postgresql-server postgresql-contrib
-sudo postgresql-setup initdb
-sudo sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/data/pg_hba.conf
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
-
+install_postgresql
 configure_postgresql
