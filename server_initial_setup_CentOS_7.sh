@@ -68,7 +68,10 @@ export DJANGO_SETTINGS_MODULE="videoplayer.settings.production"
 function configure_postgresql {
     sudo chmod og+rX ${HOME} ${PROJECT_ROOT}
     sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '${POSTGRES_PASSWORD}';"
-    export PGPASSWORD="${POSTGRES_PASSWORD}"; psql -U postgres -h localhost << EOF
+    sudo su - postgres 
+    sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/9.5/data/pg_hba.conf
+    exit
+    export PGPASSWORD="${POSTGRES_PASSWORD}"; psql -U postgres -h 127.0.0.1 << EOF
     CREATE DATABASE ${APPLICATION_DB};
     CREATE USER "${DB_USER}" WITH PASSWORD '${DB_PASSWORD}';
     ALTER ROLE "${DB_USER}" SET default_transaction_isolation TO 'read committed';
@@ -97,7 +100,7 @@ function configure_nginx {
 function configure_supervisor {
 	CONFIG=${SOURCE_DIR}/supervisord.conf
 
-	sudo scp  ${SOURCE_DIR}/supervisor_videoplayer.conf /etc/
+	sudo scp  ${CONFIG} /etc/
 
 	sudo sed --in-place "s'\${HOME}'$HOME'g" ${SUPERVISOR_FILE}
 	sudo sed --in-place "s'\${USER}'$USER'g" ${SUPERVISOR_FILE}
@@ -115,7 +118,7 @@ function configure_supervisor {
 print_info "Starting installation script..."
 
 print_info "Updating apt packages ..."
-sudo yum update
+sudo yum -y update
 
 sleep 5
 
