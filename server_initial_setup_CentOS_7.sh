@@ -24,7 +24,7 @@ sudo yum -y install nginx
 #sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
 #sudo systemctl enable postgresql-9.5.service
 #sudo systemctl start postgresql-9.5.service 
-sudo yum install postgresql-server postgresql-contrib
+sudo yum -y install postgresql-server postgresql-contrib
 sudo postgresql-setup initdb
 sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/data/pg_hba.conf
 sudo systemctl start postgresql
