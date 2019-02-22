@@ -88,7 +88,7 @@ function configure_gunicorn {
 function configure_nginx {
     sudo cp -f ${SOURCE_DIR}/nginx_videoplayer.conf ${NGINX_DIR}
     sudo rm -rf /etc/nginx/sites-enabled/default
-    sudo sed --in-place "s'\${HOME}'$HOME'g" ${NGINX_DIR}/supervisord.conf
+    sudo sed --in-place "s'\${HOME}'$HOME'g" ${NGINX_DIR}/nginx_videoplayer.conf
     
     print_info "Restarting Nginx..."
     sudo systemctl restart nginx
