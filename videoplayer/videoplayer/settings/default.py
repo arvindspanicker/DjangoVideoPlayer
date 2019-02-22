@@ -113,7 +113,7 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'NAME': PROJECT_NAME,
         'USER': PROJECT_USER,
     }

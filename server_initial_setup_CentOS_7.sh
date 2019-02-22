@@ -91,7 +91,7 @@ function configure_nginx {
     CONFIG_FILE="/etc/nginx/sites-enabled/nginx_videoplayer.conf"
     sudo cp -f ${SOURCE_DIR}/nginx_videoplayer.conf ${NGINX_DIR}
     sudo rm -rf /etc/nginx/sites-enabled/default
-    sudo sed --in-place "s'\${HOME}'$HOME'g" ${NGINX_DIR}/nginx_videoplayer.conf
+    sudo sed --in-place "s'\${HOME}'$HOME'g" ${NGINX_DIR}/supervisord.conf
     
     print_info "Restarting Nginx..."
     sudo systemctl restart nginx
