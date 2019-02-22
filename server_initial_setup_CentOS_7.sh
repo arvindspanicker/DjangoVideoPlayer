@@ -70,7 +70,7 @@ function configure_postgresql {
     sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '${POSTGRES_PASSWORD}';"
     sudo su - postgres 
     sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/9.5/data/pg_hba.conf
-    exit
+    su ${USER}
     export PGPASSWORD="${POSTGRES_PASSWORD}"; psql -U postgres -h 127.0.0.1 << EOF
     CREATE DATABASE ${APPLICATION_DB};
     CREATE USER "${DB_USER}" WITH PASSWORD '${DB_PASSWORD}';
