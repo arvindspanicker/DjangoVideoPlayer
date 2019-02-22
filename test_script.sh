@@ -29,7 +29,7 @@ EOF
 
 sudo yum -y install postgresql-server postgresql-contrib
 sudo postgresql-setup initdb
-sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/data/pg_hba.conf
+sudo sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/data/pg_hba.conf
 sudo systemctl start postgresql
 sudo systemctl enable postgresql
 
