@@ -40,7 +40,7 @@ sudo yum -y install python36u-devel
 PROJECT_ROOT="${HOME}/DjangoVideoPlayer/videoplayer"
 SUPERVISOR_FILE="/etc/supervisord.conf"
 GUNICORN_DIR="${HOME}/DjangoVideoPlayer/server_conf/gunicorn"
-NGINX_DIR="/etc/nginx/nginx.conf"
+NGINX_DIR="/etc/nginx"
 SOURCE_DIR="${HOME}/DjangoVideoPlayer/server_conf"
 APPLICATION_DB="djangovideoplayer"
 DB_HOST="localhost"
