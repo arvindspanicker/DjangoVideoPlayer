@@ -5,7 +5,7 @@ function print_info {
 }
 
 function create_virtal_environment {
-print_info "============CREATING VIRTUAL ENVIRONMENT=============="
+print_info "============CREATING VIRTUAL ENVIRONMENT==============\n"
 python3.6 -m venv ${HOME}/.videoplayer
 sleep 5
 source ${HOME}/.videoplayer/bin/activate
@@ -13,7 +13,7 @@ source ${HOME}/.videoplayer/bin/activate
 
 
 function install_dependency_packages {
-print_info "============INSTALLING DEPENDENCIES PACKAGES============"
+print_info "============INSTALLING DEPENDENCIES PACKAGES============\n"
 sudo yum -y install wget
 sudo yum  -y install epel-release
 sudo yum -y install nginx
@@ -26,7 +26,7 @@ sudo yum -y install ffmpeg ffmpeg-devel
 }
 
 function install_python {
-print_info "============INSTALLING PYTHON AND IT'S PACKAGES============"
+print_info "============INSTALLING PYTHON AND IT'S PACKAGES============\n"
 sudo yum -y update
 sudo yum -y install yum-utils
 sudo yum -y groupinstall development
@@ -64,8 +64,6 @@ sudo systemctl restart postgresql-10
 }
 
 
-
-
 function configure_postgresql {
     export PGPASSWORD="${POSTGRES_PASSWORD}"; psql -U postgres -h 127.0.0.1 << EOF
     CREATE DATABASE ${APPLICATION_DB};
@@ -92,7 +90,7 @@ function configure_nginx {
     sudo sed --in-place "s'\${HOME}'$HOME'g" ${NGINX_DIR}/nginx.conf
     sudo sed --in-place "s'\${USER}'$USER'g" ${NGINX_DIR}/nginx.conf
     
-    print_info "Restarting Nginx..."
+    print_info "Restarting Nginx...\n"
     sudo systemctl restart nginx
 }
 
@@ -106,36 +104,36 @@ function configure_supervisor {
 
 
 	sudo supervisorctl reread
-	print_info "Updating supervisor configuration files..."
+	print_info "Updating supervisor configuration files...\n"
 
 	sudo supervisorctl restart all
-	print_info "Restarting all supervisor programs ..."
+	print_info "Restarting all supervisor programs ...\n"
 }
 
 
 
-print_info "Starting installation script..."
+print_info "Starting installation script...\n"
 
-print_info "Updating apt packages ..."
+print_info "Updating apt packages ...\n"
 sudo yum -y update
 
 sleep 5
 
-print_info "Installing Postgres........."
+print_info "Installing Postgres.........\n"
 install_postgresql
 
-print_info "Installing Python "
+print_info "Installing Python..........\n"
 install_python
 
 sleep 5
 
-print_info "Installing dependency packages..."
+print_info "Installing dependency packages...\n"
 install_dependency_packages
 
 print_info "Service stop"
 sudo supervisorctl stop all
 
-print_info "Installing virtual environment packages..."
+print_info "Installing virtual environment packages...\n"
 create_virtal_environment 
 
 pip install -r requirements.txt
@@ -152,16 +150,16 @@ configure_postgresql
 
 sleep 5
 
-print_info "Configuring supervisor..."
+print_info "Configuring supervisor...\n"
 configure_supervisor
 
 sleep 5
 		
-print_info "Configuring Nginx..."
+print_info "Configuring Nginx...\n"
 configure_nginx
 
-print_info "Starting application configuration"
-print_info "Migrating database changes.........................................."
+print_info "Starting application configuration\n"
+print_info "Migrating database changes.........................................\n."
 
 
 cd ${PROJECT_ROOT}
@@ -171,15 +169,25 @@ python manage.py migrate --settings=videoplayer.settings.production
 ###execute this command after makemigration and migrate command
 python manage.py createsuperuser --settings=videoplayer.settings.production
 
-print_info "Running application collect static..."
+print_info "Running application collect static...\n"
 python manage.py collectstatic --settings=videoplayer.settings.production
 
-print_info "Restarting all services..."
+print_info "Restarting all services........\n"
 sudo supervisorctl reread
 sudo supervisorctl update
 sudo systemctl start nginx
 sudo systemctl enable nginx
 
+print_info "Setting the owner rights for proper working of nginx...........\n"
 sudo chown -R ${USER}:${USER} /home
 sudo chmod -R ug+r /home
+sudo chown -R ${USER}:${USER} /var/log/nginx
+sudo chown -R ${USER}:${USER} /etc/nginx
+
+print_info "Start nginx as root....\n"
+su -
+sudo systemctl restart nginx
+printf_info "Installation done.....\n"
+exit
+
 
