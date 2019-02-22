@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function print_info {
-        printf -n $1 
+        printf '\e[1;34m%-6s\e[m' -n $1 
 }
 
 function create_virtal_environment {
@@ -66,6 +66,7 @@ POSTGRES_PASSWORD="postgres"
 export DJANGO_SETTINGS_MODULE="videoplayer.settings.production"
 
 function configure_postgresql {
+    sudo chmod og+rX ${HOME} ${PROJECT_ROOT}
     sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '${POSTGRES_PASSWORD}';"
     export PGPASSWORD="${POSTGRES_PASSWORD}"; psql -U postgres -h localhost << EOF
     CREATE DATABASE ${APPLICATION_DB};
