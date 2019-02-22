@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function print_info {
-        printf '\e[1;34m%-6s\e[m' -n $1 
+        printf '\e[1;34m%-6s\e[m' $1 '\n'
 }
 
 function create_virtal_environment {
@@ -18,12 +18,17 @@ sudo yum -y install wget
 sudo yum  -y install epel-release
 sudo yum -y install nginx
 
-sudo yum -y localinstall http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
-sudo yum list postgres*
-sudo yum -y install postgresql95-server.x86_64 postgresql95-contrib.x86_64 postgresql95-libs.x86_64 
-sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
-sudo systemctl enable postgresql-9.5.service
-sudo systemctl start postgresql-9.5.service 
+#sudo yum -y localinstall http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+#sudo yum list postgres*
+#sudo yum -y install postgresql95-server.x86_64 postgresql95-contrib.x86_64 postgresql95-libs.x86_64 
+#sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
+#sudo systemctl enable postgresql-9.5.service
+#sudo systemctl start postgresql-9.5.service 
+sudo yum install postgresql-server postgresql-contrib
+sudo postgresql-setup initdb
+sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/data/pg_hba.conf
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
 
 #wget https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
 #sudo yum -y install pgdg-centos96-9.6-3.noarch.rpm epel-release
@@ -66,11 +71,6 @@ POSTGRES_PASSWORD="postgres"
 export DJANGO_SETTINGS_MODULE="videoplayer.settings.production"
 
 function configure_postgresql {
-    sudo chmod og+rX ${HOME} ${PROJECT_ROOT}
-    sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '${POSTGRES_PASSWORD}';"
-    sudo su - postgres 
-    sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            trust'g" /var/lib/pgsql/9.5/data/pg_hba.conf
-    su ${USER}
     export PGPASSWORD="${POSTGRES_PASSWORD}"; psql -U postgres -h 127.0.0.1 << EOF
     CREATE DATABASE ${APPLICATION_DB};
     CREATE USER "${DB_USER}" WITH PASSWORD '${DB_PASSWORD}';
