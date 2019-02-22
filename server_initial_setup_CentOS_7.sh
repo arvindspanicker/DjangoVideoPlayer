@@ -173,7 +173,8 @@ print_info "Running application collect static..."
 python manage.py collectstatic --settings=videoplayer.settings.production
 
 print_info "Restarting all services..."
-sudo supervisorctl restart all
+sudo supervisorctl reread
+sudo supervisorctl start videoplayer
 sudo systemctl start nginx
 sudo systemctl enable nginx
 
