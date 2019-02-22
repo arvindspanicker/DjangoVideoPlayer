@@ -77,7 +77,9 @@ function configure_postgresql {
     ALTER ROLE "${DB_USER}" SET default_transaction_isolation TO 'read committed';
     ALTER ROLE "${DB_USER}" SET timezone TO 'UTC';
     ALTER USER "${DB_USER}" WITH SUPERUSER;
-    GRANT ALL PRIVILEGES ON DATABASE ${APPLICATION_DB} TO "${DB_USER}";
+    GRANT ALL PRIVILEGES ON DATABASE ${APPLICATION_DB} TO "${DB_USER};
+    \c ${APPLICATION_DB};
+    CREATE EXTENSION postgis";
 
 EOF
 }
