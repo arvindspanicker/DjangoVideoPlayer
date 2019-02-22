@@ -40,7 +40,7 @@ sudo yum -y install python36u-devel
 PROJECT_ROOT="${HOME}/DjangoVideoPlayer/videoplayer"
 SUPERVISOR_FILE="/etc/supervisord.conf"
 GUNICORN_DIR="${HOME}/DjangoVideoPlayer/server_conf/gunicorn"
-NGINX_DIR="/etc/nginx/sites-enabled"
+NGINX_DIR="/etc/nginx/conf.d"
 SOURCE_DIR="${HOME}/DjangoVideoPlayer/server_conf"
 APPLICATION_DB="djangovideoplayer"
 DB_HOST="localhost"
@@ -86,7 +86,6 @@ function configure_gunicorn {
 }
 
 function configure_nginx {
-    CONFIG_FILE="/etc/nginx/sites-enabled/nginx_videoplayer.conf"
     sudo cp -f ${SOURCE_DIR}/nginx_videoplayer.conf ${NGINX_DIR}
     sudo rm -rf /etc/nginx/sites-enabled/default
     sudo sed --in-place "s'\${HOME}'$HOME'g" ${NGINX_DIR}/supervisord.conf
@@ -175,7 +174,7 @@ python manage.py collectstatic --settings=videoplayer.settings.production
 
 print_info "Restarting all services..."
 sudo supervisorctl reread
-sudo supervisorctl start videoplayer
+sudo supervisorctl update
 sudo systemctl start nginx
 sudo systemctl enable nginx
 
