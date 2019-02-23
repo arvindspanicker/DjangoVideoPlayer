@@ -8,7 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('', include('videos.urls')),
     path('jet', include('jet.urls', 'jet')),  # Django JET URLS
-    path('secure_admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
 ]
 

@@ -183,6 +183,7 @@ sudo chown -R ${USER}:${USER} /home
 sudo chmod -R ug+r /home
 sudo chown -R ${USER}:${USER} /var/log/nginx
 sudo chown -R ${USER}:${USER} /etc/nginx
+sudo chown -R ${USER}:${USER}  /var/lib/nginx
 
 print_info "Start nginx as root....\n"
 su -

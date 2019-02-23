@@ -10,7 +10,7 @@ a:hover
     cursor:pointer;
 }
 section h3{
-    font-size: 18px;
+    font-size: 22px;
 }
 .card{
     display: inline-block;
@@ -27,6 +27,7 @@ width:100%;
 }
 .card:hover{
     border: 4px  #6AC045 solid;
+    opacity: 0.5;
 }
 .like-icon, .like-text{
     display: inline-block;
@@ -59,7 +60,7 @@ section{
     width: 100% !important;
 }
 #recently_added_section{
-    height: 450px !important;
+    height: 650px !important;
     overflow-x:hidden;
     overflow-y: auto;
 }
@@ -82,11 +83,17 @@ section{
 .upload_section a,.upload_section span{
     font-size: 24px;
 }
+#sequential_thumbnails{
+    padding-top: 20px;
+}
+#sequential_thumbnails img:hover{
+    opacity: 0.5;
+}
 
 /* Custom scroll bar*/
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 15px;
 }
 
 /* Track */

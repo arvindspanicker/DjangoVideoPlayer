@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12" id="my_video_slider">
-            <h2 class="text-center font-weight-bold text-white">My Videos</h2>
+            <h3 class="text-center font-weight-bold text-white">My Videos</h3>
             {% if my_videos|length != 0 %}
             {% for video in my_videos %}
             <div class="card bg-secondary" style="width: 23rem;">
@@ -40,7 +40,7 @@
         </div>
         <div class="col-sm-12">
             <form method="post" class="form text-white" enctype="multipart/form-data">
-                <h2 class="text-center font-weight-bold">Upload Videos</h2>
+                <h3 class="text-center font-weight-bold">Upload Videos</h3>
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 {% buttons %}

@@ -49,7 +49,7 @@ class VideoModel(BaseModel):
 
     @property
     def get_thumbnail(self):
-        # Change this to a celery task to improve performance
+        # Enhancement:Change this to a celery task to improve performance
         if not self.thumbnail:
             video_path = os.path.join(settings.MEDIA_ROOT,str(self.video_file))
             clip = VideoFileClip(video_path)
@@ -63,6 +63,26 @@ class VideoModel(BaseModel):
             )
             self.save()
         return self.thumbnail
+
+    @property
+    def get_thumbnails_with_playtime(self):
+        # Enhancement:Change this to a celery task to improve performance
+        video_path = os.path.join(settings.MEDIA_ROOT, str(self.video_file))
+        clip = VideoFileClip(video_path)
+        image_extention = '.jpg'
+        # Get the three thumbnails
+        thumnail_time = int(clip.duration / 4)
+        subtract_value = int(clip.duration / 10)
+        thumbnails_with_playtime = []
+        for count in range(0,4):
+            thumbnail_path = os.path.join(settings.SEQUENTIAL_THUMBNAILS_LOCATION,self.title+'_{}'.format(count) \
+                                          + image_extention)
+            clip.save_frame(thumbnail_path, t=thumnail_time-subtract_value)
+            thumbnail_src = os.path.join(settings.SEQUENTIAL_THUMBNAILS_URL,self.title+'_{}'.format(count)+ image_extention)
+            thumbnails_with_playtime.append([thumbnail_src,thumnail_time-subtract_value])
+            thumnail_time += int(clip.duration / 4)
+
+        return thumbnails_with_playtime
 
 
     def save(self, *args, **kwargs):

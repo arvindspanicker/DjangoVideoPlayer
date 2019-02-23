@@ -167,3 +167,8 @@ LOGGING = {
         },
     }
 }
+
+
+# Sequential File Storage Location
+SEQUENTIAL_THUMBNAILS_LOCATION = os.path.join(MEDIA_ROOT,'sequential_thumbnails')
+SEQUENTIAL_THUMBNAILS_URL = os.path.join(MEDIA_URL,'sequential_thumbnails')

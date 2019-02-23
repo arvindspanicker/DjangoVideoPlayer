@@ -5,7 +5,7 @@
 <!-- Most Popular Section -->
 <section id="most_popular_videos">
     <div class="container">
-        <h2 class="text-white font-weight-bold text-center">Most Popular Videos</h2>
+        <h3 class="text-white font-weight-bold text-center">Most Popular Videos</h3>
         <div class="row">
             <div class="col-lg-12 ">
                 {% if most_viewed_videos|length != 0 %}
@@ -35,7 +35,7 @@
                 <div class="text-center upload_section">
                     <button class="btn btn-success">
                         <span class="glyphicon glyphicon-upload"></span>
-                        <a class="btn btn-sucess text-white text-center" href="{% url 'videoplayer_video_upload' %}">Upload Video
+                        <a class="text-white text-center" href="{% url 'videoplayer_video_upload' %}">Upload Video
                         </a>
                     </button>
                 </div>
@@ -48,7 +48,7 @@
 <section id="all_videos">
     <div class="container">
         <div class="row">
-            <h2 class="text-white font-weight-bold text-center">Video Library</h2>
+            <h3 class="text-white font-weight-bold text-center">Video Library</h3>
             <div class="col-lg-12">
                 {% if all_videos|length != 0 %}
                 {% for video in all_videos %}
@@ -109,7 +109,7 @@
 <!-- Most Recent Section -->
 <section id="most_recent_videos">
     <div class="container">
-        <h2 class="text-white font-weight-bold text-center">Most Recent Videos</h2>
+        <h3 class="text-white font-weight-bold text-center">Most Recent Videos</h3>
         <div class="row">
             <div class="col-lg-12">
                 {% if most_recent_videos|length != 0 %}

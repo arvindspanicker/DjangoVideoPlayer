@@ -1,19 +1,61 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load video_tags %}
+
+
+{% block extra_script %}
+<script>
+        $(document).ready(function(){
+            const player = new Plyr('#videoPlayer',{
+                enabled:true,
+                settings: ['speed', 'loop'],
+                loop: { active: true }
+
+            });
+
+             $("#sequential_thumbnails img").on("click",function(){
+                seq_class = $(this).attr('class');
+                seek_time = $("p" +"."+seq_class).attr('data-seek-time');
+                player.play();
+                player.forward(seek_time);
+            });
+
+        });
+</script>
+{% endblock%}
+
+
+
 
 {% block content %}
 <div id="video_player">
     <div class="container">
-        <script src="{% static 'js/packages/plyr/plyr.js' %}"></script>
         <div class="row">
             <div class="col-lg-9 col-md-9 col-sm-12">
-                <video poster="/media/{{ video.thumbnail }}" id="videoPlayer" playsinline controls>
+                <video poster="/media/{{ video.thumbnail }}" controls data-plyr-config='{ "title": "{{ video.title }}" }' id="videoPlayer"  controls>
                     <source src="{{ video.generated_link }}" type="video/mp4"/>
                     <!-- Captions are optional -->
                     <!--<track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default/>-->
                 </video>
                 <div class=" text-white font-weight-bold">
-                    <h2 class="text-center"> {{ video.title }} </h2>
+                    <div id="sequential_thumbnails">
+                        <div class="row">
+                            {% for thumbnail_playtime in video.get_thumbnails_with_playtime %}
+                                <div class="col-sm-3">
+                                    <img src="{{ thumbnail_playtime.0 }}" class="seq_thumbnail_{{ forloop.counter0 }}" height="100" width="200"/>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="row">
+                            {% for thumbnail_playtime in video.get_thumbnails_with_playtime %}
+                                <div class="col-sm-3">
+                                    <p class="font-green text-center seq_thumbnail_{{ forloop.counter0 }}" data-seek-time="{{ thumbnail_playtime.1 }}">{{ thumbnail_playtime.1|convert_to_hhmmss }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <h3 class="text-center"> {{ video.title }} </h3>
+                    <h6 class="text-center">Uploaded by  {{ video.uploaded_by }} </h6>
                 </div>
             </div>
             <div class="col-sm-12 col-md-3 col-lg-3">
@@ -29,7 +71,7 @@
                             <figure>
                                 <a href="/watch_video/{{ video.uid}}">
                                     <h4 class="card-title text-center">
-                                        {{ video.title}}
+                                        {{ video.title }}
                                     </h4>
                                 </a>
                                 <span class="glyphicon glyphicon-facetime-video like-icon text-white"></span>

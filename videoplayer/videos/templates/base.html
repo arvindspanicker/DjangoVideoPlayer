@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
+
     {% load bootstrap3 %}
     {% load staticfiles %}
     {% bootstrap_css %}
@@ -17,9 +19,12 @@
     <style>
             {% block extra_style %} {% endblock %}
     </style>
+    <link rel="icon" href="{% static '/icons/favicon.png' %}">
     <link href="{% static '/css/video_player/styles.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static '/css/video_player/responsive.css' %}" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/packages/plyr/plyr.css' %}" />
+    <script src="{% static 'js/packages/plyr/plyr.js' %}"></script>
 
 </head>
 <body>
