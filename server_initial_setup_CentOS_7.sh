@@ -171,6 +171,7 @@ python manage.py createsuperuser --settings=videoplayer.settings.production
 
 print_info "Running application collect static...\n"
 python manage.py collectstatic --settings=videoplayer.settings.production
+sudo scp -r ${PROJECT_ROOT}/videoplayer/staticserve/*  ${PROJECT_ROOT}/videoplayer/static/
 
 print_info "Restarting all services........\n"
 sudo supervisorctl reread

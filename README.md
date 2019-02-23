@@ -123,6 +123,7 @@ pip install -r requirements.txt
 - python manage.py createsuperuser --settings=videoplayer.settings.production
 **Note the above command will prompt a super user creation - with this details only you can log in initially**
 - python manage.py collectstatic --settings=videoplayer.settings.production
+- sudo scp -r ${PROJECT_ROOT}/videoplayer/staticserve/*  ${PROJECT_ROOT}/videoplayer/static/ 
 
 #### Restart services and Enable servies to be run on system restart
 - sudo supervisorctl restart all
