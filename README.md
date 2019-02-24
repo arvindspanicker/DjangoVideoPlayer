@@ -91,7 +91,7 @@ pip install -r requirements.txt
 - Replace all '${HOME}' and '${USER}' with the current home directoy and user
 - If there is super visor already existing in the database, do the following
   * Copy the below code:
-  *     '''bash
+  *     '''shell
         [program:videoplayer]
 	command = ${HOME}/DjangoVideoPlayer/server_conf/gunicorn/gunicorn.run
 	user = ${USER}
