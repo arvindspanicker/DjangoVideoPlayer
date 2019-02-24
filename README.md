@@ -91,14 +91,14 @@ pip install -r requirements.txt
 - Replace all '${HOME}' and '${USER}' with the current home directoy and user
 - If there is super visor already existing in the database, do the following
   * Copy the below code:
-  *     '''shell
+  *     ```shell
         [program:videoplayer]
 	command = ${HOME}/DjangoVideoPlayer/server_conf/gunicorn/gunicorn.run
 	user = ${USER}
 	stdout_logfile = ${HOME}/DjangoVideoPlayer/videoplayer/log/gunicorn_supervisor.log
 	redirect_stderr = true
 	enviornment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8
-        '''
+        ```
   * Paste this in the conf folder that you have specified in /etc/supervisor.conf (under the [include] tag)
   * If there is no folder under include tag, then add or change the line  **files=conf.d/*.conf** and create a folder conf 
     if it doesn't exist in '/etc/supervisor/' folder
