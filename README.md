@@ -76,7 +76,7 @@ pip install -r requirements.txt
 - Then **type psql**
 - Now create a database called 'djangovideoplayer' using the command **CREATE DATABASE djangovideoplayer;**
 - Now create a user called 'djangovideoplayer_user' using the command CREATE USER djangovideoplayer_user WITH PASSWORD 'f5j*kM@l';
-- **Note the password should match the password in [a Settings](DjangoVideoPlayer/videoplayer/videoplayer/settings/production.py)**
+- **Note the password should match the password in [Settings](/DjangoVideoPlayer/blob/master/videoplayer/videoplayer/settings/production.py)**
 - ALTER ROLE djangovideoplayer_user SET default_transaction_isolation TO 'read committed';
 - ALTER ROLE djangovideoplayer_user SET timezone TO 'UTC';
 - ALTER USER djangovideoplayer_user WITH SUPERUSER;
