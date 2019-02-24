@@ -5,8 +5,9 @@
 ### For CentOs 7
 **Please note that if there are any exisiting applications, the installation of this might corrupt the database, nginx services or supervisor**
 **Also note that the SE of Centos needs to be disabled and also incoming traffic should be allowed**
-###How to Disable SE of CentOS - [Disable SE on CentOS 7](https://linuxize.com/post/how-to-disable-selinux-on-centos-7/)
-###Allow IP tables Incoming Traffic 
+
+### How to Disable SE of CentOS - [Disable SE on CentOS 7](https://linuxize.com/post/how-to-disable-selinux-on-centos-7/)
+### Allow IP tables Incoming Traffic 
 **This should be done on every restart**
 - iptables -I INPUT -j ACCEPT
 - iptables -F
