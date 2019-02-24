@@ -5,8 +5,8 @@
 ### For CentOs 7
 **Please note that if there are any exisiting applications, the installation of this might corrupt the database, nginx services or supervisor**
 **Also note that the SE of Centos needs to be disabled and also incoming traffic should be allowed**
-####How to Disable SE of CentOS - [Disable SE on CentOS 7](https://linuxize.com/post/how-to-disable-selinux-on-centos-7/)
-####Allow IP tables Incoming Traffic 
+###How to Disable SE of CentOS - [Disable SE on CentOS 7](https://linuxize.com/post/how-to-disable-selinux-on-centos-7/)
+###Allow IP tables Incoming Traffic 
 **This should be done on every restart**
 - iptables -I INPUT -j ACCEPT
 - iptables -F
@@ -44,17 +44,17 @@
 
 
 #### Install Other Dependency Packages (Ignore each installation based on what is already installed)
-**wget**
+-**wget**
 - sudo yum -y install wget
-**nginx**
+-**nginx**
 - sudo yum  -y install epel-release
 - sudo yum -y install nginx
-**supervisor**
+-**supervisor**
 - sudo yum -y install supervisor
 - sudo systemctl start supervisord
 - sudo systemctl enable supervisord
 
-**other dependencies**
+-**other dependencies**
 - sudo yum -y install gdal gdal-devel 
 - sudo yum -y localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
 - sudo yum -y install ffmpeg ffmpeg-devel
@@ -121,7 +121,7 @@ pip install -r requirements.txt
 - Run the following commands inside the directory ~/DjangoVideoPlayer/videoplayer
 - python manage.py migrate --settings=videoplayer.settings.production
 - python manage.py createsuperuser --settings=videoplayer.settings.production
-**Note the above command will prompt a super user creation - with this details only you can log in initially**
+- **Note the above command will prompt a super user creation - with this details only you can log in initially**
 - python manage.py collectstatic --settings=videoplayer.settings.production
 - sudo scp -r ${PROJECT_ROOT}/videoplayer/staticserve/*  ${PROJECT_ROOT}/videoplayer/static/ 
 
@@ -145,4 +145,9 @@ pip install -r requirements.txt
 - **Ability to load private videos**
 
 **Please note that there is no encryption of the video files, users can simply download them**
+
+## Pending Features
+- **Delete option in front-end ( Only available right now in admin page )**
+- **Search option in front-end (Only available right now in admin page)**
+- **Celery configuration for heavy tasks to run in background automatically**
 
