@@ -39,7 +39,7 @@
 - sudo systemctl enable postgresql-10
 - sudo /usr/pgsql-10/bin/postgresql-10-setup initdb
 - sudo systemctl start postgresql-10
-**The below step to change ident authentication to trust for localhost is done so that the application can access the database**
+- **The below step to change ident authentication to trust for localhost is done so that the application can access the database**
 - sudo sed -i "s'host    all             all             127.0.0.1/32            ident'host    all             all             127.0.0.1/32            - trust'g" /var/lib/pgsql/10/data/pg_hba.conf
 - sudo systemctl restart postgresql-10
 
@@ -76,7 +76,7 @@ pip install -r requirements.txt
 - Then **type psql**
 - Now create a database called 'djangovideoplayer' using the command **CREATE DATABASE djangovideoplayer;**
 - Now create a user called 'djangovideoplayer_user' using the command CREATE USER djangovideoplayer_user WITH PASSWORD 'f5j*kM@l';
-**Note the password should match the password in**
+- **Note the password should match the password in [a relative link](/DjangoVideoPlayer/videoplayer/videoplayer/settings/production.py)**
 - ALTER ROLE djangovideoplayer_user SET default_transaction_isolation TO 'read committed';
 - ALTER ROLE djangovideoplayer_user SET timezone TO 'UTC';
 - ALTER USER djangovideoplayer_user WITH SUPERUSER;
